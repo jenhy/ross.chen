@@ -113,39 +113,39 @@ class MiMotionRunner:
         else:
             self.is_phone = False
         self.user = user
-        # self.fake_ip_addr = fake_ip()
-        # self.log_str += f"创建虚拟ip地址：{self.fake_ip_addr}\n"
+        self.fake_ip_addr = fake_ip()
+        self.log_str += f"创建虚拟ip地址：{self.fake_ip_addr}\n"
 
     # 登录
     def login(self):
 
-        # url1 = "https://api-user.huami.com/registrations/" + self.user + "/tokens"
-        # login_headers = {
-        #     "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-        #     "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 14_7_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.2",
-        #     "X-Forwarded-For": self.fake_ip_addr
-        # }
-        # data1 = {
-        #     "client_id": "HuaMi",
-        #     "password": f"{self.password}",
-        #     "redirect_uri": "https://s3-us-west-2.amazonaws.com/hm-registration/successsignin.html",
-        #     "token": "access"
-        # }
-        # r1 = requests.post(url1, data=data1, headers=login_headers, allow_redirects=False)
-        # if r1.status_code != 303:
-        #     self.log_str += "登录异常，status: %d\n" % r1.status_code
-        #     return 0, 0
-        # location = r1.headers["Location"]
-        # try:
-        #     code = get_access_token(location)
-        #     if code is None:
-        #         self.log_str += "获取accessToken失败\n"
-        #         return 0, 0
-        # except:
-        #     self.log_str += f"获取accessToken异常:{traceback.format_exc()}\n"
-        #     return 0, 0
-        # print("access_code获取成功！")
-        # print(code)
+        url1 = "https://api-user.huami.com/registrations/" + self.user + "/tokens"
+        login_headers = {
+            "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+            "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 14_7_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.2",
+            "X-Forwarded-For": self.fake_ip_addr
+        }
+        data1 = {
+            "client_id": "HuaMi",
+            "password": f"{self.password}",
+            "redirect_uri": "https://s3-us-west-2.amazonaws.com/hm-registration/successsignin.html",
+            "token": "access"
+        }
+        r1 = requests.post(url1, data=data1, headers=login_headers, allow_redirects=False)
+        if r1.status_code != 303:
+            self.log_str += "登录异常，status: %d\n" % r1.status_code
+            return 0, 0
+        location = r1.headers["Location"]
+        try:
+            code = get_access_token(location)
+            if code is None:
+                self.log_str += "获取accessToken失败\n"
+                return 0, 0
+        except:
+            self.log_str += f"获取accessToken异常:{traceback.format_exc()}\n"
+            return 0, 0
+        print("access_code获取成功！")
+        print(code)
 
         url2 = "https://account.huami.com/v2/client/login"
         if self.is_phone:
